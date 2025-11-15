@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chaïma Atyaoui - Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #050816;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(5, 8, 22, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 25px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 60px;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 60px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1em;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #915eff;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #915eff;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 120px 60px 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        #home {
+            display: flex;
+            align-items: center;
+            padding-top: 180px;
+        }
+
+        .hero-content h1 {
+            font-size: 6em;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+        }
+
+        .hero-content h1 .highlight {
+            background: linear-gradient(90deg, #915eff 0%, #ff6ec7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content p {
+            font-size: 1.3em;
+            color: #aaa;
+            max-width: 700px;
+            line-height: 1.8;
+            margin-bottom: 50px;
+            font-weight: 300;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 18px 45px;
+            background: #915eff;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            border-radius: 8px;
+            transition: all 0.3s;
+            border: 2px solid #915eff;
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(145, 94, 255, 0.4);
+        }
+
+        .btn-secondary {
+            padding: 18px 45px;
+            background: transparent;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1em;
+            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            border-color: #915eff;
+            background: rgba(145, 94, 255, 0.1);
+        }
+
+        #projects h2, #services h2, #contact h2 {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .section-subtitle {
+            color: #915eff;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .project-card {
+            background: linear-gradient(145deg, rgba(145, 94, 255, 0.05), rgba(255, 110, 199, 0.05));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 35px;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(145, 94, 255, 0.1), rgba(255, 110, 199, 0.1));
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-15px);
+            border-color: rgba(145, 94, 255, 0.5);
+            box-shadow: 0 20px 60px rgba(145, 94, 255, 0.2);
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-card h3 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+
+        .project-date {
+            color: #915eff;
+            font-size: 0.95em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .project-card p {
+            color: #bbb;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            font-size: 1.05em;
+        }
+
+        .project-techs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .tech-badge {
+            background: rgba(145, 94, 255, 0.15);
+            border: 1px solid rgba(145, 94, 255, 0.4);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            color: #915eff;
+            font-weight: 500;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 35px;
+            margin-top: 60px;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .service-card:hover {
+            border-color: #915eff;
+            transform: translateY(-10px);
+            background: rgba(145, 94, 255, 0.05);
+        }
+
+        .service-icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #915eff;
+        }
+
+        .service-card p {
+            color: #aaa;
+            line-height: 1.7;
+        }
+
+        .contact-container {
+            max-width: 900px;
+            margin: 60px auto 0;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .contact-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .contact-item:hover {
+            border-color: #915eff;
+            transform: translateY(-5px);
+        }
+
+        .contact-item h3 {
+            color: #915eff;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .contact-item a {
+            color: #bbb;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .contact-item a:hover {
+            color: #915eff;
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 50px;
+            border-radius: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #915eff;
+            margin-bottom: 12px;
+            font-weight: 600;
+            font-size: 1.05em;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 1.05em;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #915eff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 180px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: #915eff;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1.15em;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #7c3aed;
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(145, 94, 255, 0.4);
+        }
+
+        footer {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 6px;
+        }
+
+        .hamburger span {
+            width: 28px;
+            height: 3px;
+            background: #fff;
+            transition: 0.3s;
+            border-radius: 3px;
+        }
+
+        @media (max-width: 968px) {
+            .nav-container {
+                padding: 0 30px;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                right: -100%;
+                flex-direction: column;
+                background: rgba(5, 8, 22, 0.98);
+                width: 100%;
+                padding: 50px;
+                transition: 0.3s;
+                gap: 30px;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            section {
+                padding: 100px 30px 50px;
+            }
+
+            .hero-content h1 {
+                font-size: 3.5em;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-form {
+                padding: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+
+    <nav>
+        <div class="nav-container">
+            <div class="logo">Chaïma</div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="active">Home</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home">
+        <div class="hero-content">
+            <h1>Hi, I'm <span class="highlight">Chaïma</span></h1>
+            <p>
+                Full Stack Developer & AI Enthusiast passionnée par la création d'applications web innovantes 
+                et performantes. Spécialisée en Spring Boot, Angular, React et Intelligence Artificielle.
+            </p>
+            <div class="cta-buttons">
+                <a href="#projects" class="btn-primary">Voir mes projets</a>
+                <a href="#contact" class="btn-secondary">Me contacter</a>
+                <a href="#" class="btn-secondary" onclick="downloadCV(event)">📄 Télécharger CV</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <p class="section-subtitle">Mon Travail</p>
+        <h2>Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-card-content">
+                    <h3>E-Shop Platform</h3>
+                    <p class="project-date">Août - Septembre 2025</p>
+                    <p>
+                        Plateforme e-commerce complète avec gestion des produits, commandes et utilisateurs. 
+                        Intégration Cloudinary et tableau de bord admin interactif.
+                    </p>
+                    <div class="project-techs">
+                        <span class="tech-badge">Spring Boot</span>
+                        <span class="tech-badge">Angular</span>
+                        <span class="tech-badge">MySQL</span>
+                        <span class="tech-badge">JWT</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-card-content">
+                    <h3>Agence Maghribia</h3>
+                    <p class="project-date">2025</p>
+                    <p>
+                        Application de voyage intelligente avec chatbot IA, messagerie temps réel et 
+                        recommandations personnalisées via ML clustering.
+                    </p>
+                    <div class="project-techs">
+                        <span class="tech-badge">Spring Boot</span>
+                        <span class="tech-badge">WebSocket</span>
+                        <span class="tech-badge">Python ML</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-card-content">
+                    <h3>Recruitment Platform</h3>
+                    <p class="project-date">Juillet - Août 2024</p>
+                    <p>
+                        Système de recrutement avec gestion complète des candidats, entreprises et offres. 
+                        Architecture modulaire et sécurité JWT.
+                    </p>
+                    <div class="project-techs">
+                        <span class="tech-badge">Spring Boot</span>
+                        <span class="tech-badge">Angular</span>
+                        <span class="tech-badge">Scrum</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-card-content">
+                    <h3>AI Student Assistant</h3>
+                    <p class="project-date">2025</p>
+                    <p>
+                        Application d'aide académique intelligente utilisant Mistral pour révision interactive 
+                        et génération de questions.
+                    </p>
+                    <div class="project-techs">
+                        <span class="tech-badge">Ollama</span>
+                        <span class="tech-badge">Mistral</span>
+                        <span class="tech-badge">Python</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-card-content">
+                    <h3>GYMINI FitLife</h3>
+                    <p class="project-date">2025</p>
+                    <p>
+                        App mobile de suivi nutritionnel avec scanner code-barres, API OpenFoodFacts 
+                        et statistiques détaillées.
+                    </p>
+                    <div class="project-techs">
+                        <span class="tech-badge">Flutter</span>
+                        <span class="tech-badge">Sqflite</span>
+                        <span class="tech-badge">API REST</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-card-content">
+                    <h3>Financial Services</h3>
+                    <p class="project-date">Février - Mai 2023</p>
+                    <p>
+                        Plateforme de gestion des services financiers avec API REST complète 
+                        et interface moderne.
+                    </p>
+                    <div class="project-techs">
+                        <span class="tech-badge">Node.js</span>
+                        <span class="tech-badge">Angular</span>
+                        <span class="tech-badge">MongoDB</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services">
+        <p class="section-subtitle">Ce que je propose</p>
+        <h2>Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">💻</div>
+                <h3>Full Stack Development</h3>
+                <p>Développement d'applications web complètes avec Spring Boot, Angular, React et Node.js</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🤖</div>
+                <h3>Intelligence Artificielle</h3>
+                <p>Intégration de solutions IA et ML, chatbots intelligents et systèmes de recommandation</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">📱</div>
+                <h3>Mobile Development</h3>
+                <p>Création d'applications mobiles performantes avec Flutter et interfaces intuitives</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🎨</div>
+                <h3>UI/UX Design</h3>
+                <p>Conception d'interfaces utilisateur modernes, intuitives et responsive</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">🔧</div>
+                <h3>API Development</h3>
+                <p>Développement d'API REST sécurisées avec JWT, WebSocket et microservices</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">☁️</div>
+                <h3>DevOps</h3>
+                <p>Configuration Docker, Kubernetes, CI/CD et gestion du versioning Git</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <p class="section-subtitle">Restons en contact</p>
+        <h2>Contact</h2>
+        <div class="contact-container">
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <h3>Email</h3>
+                    <a href="mailto:chaimaattyaoui56@gmail.com">chaimaattyaoui56@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <h3>Téléphone</h3>
+                    <a href="tel:+21629621280">+216 29 621 280</a>
+                </div>
+                <div class="contact-item">
+                    <h3>GitHub</h3>
+                    <a href="https://github.com/chaimaattyaoui" target="_blank">github.com/chaimaattyaoui</a>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <div class="form-group">
+                    <label>Nom</label>
+                    <input type="text" placeholder="Votre nom">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="votre.email@exemple.com">
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea placeholder="Votre message..."></textarea>
+                </div>
+                <button class="submit-btn">Envoyer</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Chaïma Atyaoui - Disponible pour stage PFE</p>
+    </footer>
+
+    <script>
+        // Generate stars
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 100; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Smooth scroll and active nav
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-links a');
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    document.getElementById('navLinks').classList.remove('active');
+                }
+            });
+        });
+
+        // Active nav on scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Mobile menu
+        document.getElementById('hamburger').addEventListener('click', function() {
+            document.getElementById('navLinks').classList.toggle('active');
+        });
+
+        document.addEventListener('click', function(e) {
+            const nav = document.getElementById('navLinks');
+            const hamburger = document.getElementById('hamburger');
+            if (!nav.contains(e.target) && !hamburger.contains(e.target)) {
+                nav.classList.remove('active');
+            }
+        });
+
+        // Download CV function
+        function downloadCV(e) {
+            e.preventDefault();
+            
+            // Create CV content from your data
+            const cvContent = `
+CHAÏMA ATYAOUI
+Full Stack Developer
+Email: chaimaattyaoui56@gmail.com | Tél: +216 29 621 280
+GitHub: github.com/chaimaattyaoui | LinkedIn: linkedin.com/in/chaima-attyaoui
+Localisation: Ariana, Tunis
+
+═══════════════════════════════════════════════════════════════════
+
+PROFIL
+Étudiante en dernière année d'ingénierie en génie logiciel à ESPRIT, passionnée par le 
+développement logiciel et l'intelligence artificielle. Compétences solides en développement 
+Full Stack (Spring Boot, Angular, Node.js, React.js), conception d'interfaces intuitives et 
+bonnes pratiques de tests & débogage. À la recherche d'un stage de fin d'études pour 
+contribuer à des projets innovants dans un environnement dynamique.
+
+═══════════════════════════════════════════════════════════════════
+
+FORMATION
+• Cycle d'Ingénieur en Génie Logiciel — ESPRIT (2023-2025)
+• Licence en Technologie de l'Informatique, Spécialité Développement des Systèmes 
+  d'Information — ISET Kef (2023)
+• Baccalauréat Section Science Expérimentale (2020)
+
+═══════════════════════════════════════════════════════════════════
+
+COMPÉTENCES TECHNIQUES
+Langages: Java, Python, C, C++, JavaScript, TypeScript, HTML, CSS
+Frameworks: Spring Boot, Angular, Symfony, Node.js, JavaFX, React.js, Flutter
+Bases de données: MySQL, MongoDB, Sqflite
+Architecture & Web: API RESTful, WebSocket, JWT, Microservices
+IA & ML: Machine Learning, Python ML, Ollama, Mistral, Clustering
+DevOps: Git, GitHub, Docker, Kubernetes, Postman, Trello, Cloudinary
+Méthodologies: Agile / Scrum
+
+═══════════════════════════════════════════════════════════════════
+
+EXPÉRIENCES PROFESSIONNELLES
+
+Stage PFE – Global Web Engineering (Février 2023 – Mai 2023)
+Site web de services financiers
+• Création d'un site pour la gestion des services financiers et demandes de financement
+• Backend Node.js (API REST, MongoDB) et frontend Angular
+• Participation complète: analyse, développement, tests
+
+Stage – CGI Studio (Janvier 2022 – Février 2022)
+Développement de jeu vidéo
+• Jeu de mémoire 2D sous Unity (C#) avec système de score et niveaux
+
+═══════════════════════════════════════════════════════════════════
+
+PROJETS UNIVERSITAIRES
+
+OSCAR Recrutement – Application E-commerce "E-Shop" (Août-Septembre 2025)
+• Développement site e-commerce complet avec Spring Boot et Angular
+• Implémentation API REST sécurisée (JWT), gestion produits, commandes, utilisateurs
+• Intégration Cloudinary, tableau de bord interactif, MySQL
+Technologies: Spring Boot, Angular, MySQL, JWT, Cloudinary
+
+Agence Maghribia – Plateforme de Voyage (2025)
+• Application complète avec chatbot IA, messagerie temps réel et clustering ML
+Technologies: Spring Boot, Angular, WebSocket, Python ML
+
+OSCAR Recrutement – Plateforme de recrutement (Juillet-Août 2024)
+• Conception et développement plateforme de recrutement
+• Modules: administrateurs, entreprises, candidats
+• Sécurité JWT, architecture propre, versionnement Git, Agile (Scrum)
+Technologies: Spring Boot, Angular, JWT, Scrum
+
+Application Assistant Étudiant (IA – Ollama/Mistral) (2025)
+• Application intelligente d'aide académique basée sur IA locale
+• Révision interactive et génération de questions
+Technologies: Ollama, Mistral, Python
+
+Application GYMINI – FitLife Tracker (2025)
+• Application mobile de suivi nutritionnel avec Flutter
+• Scanner code-barres, API OpenFoodFacts, statistiques nutritionnelles
+Technologies: Flutter, Sqflite, API REST, fl_chart
+
+Agence de Voyage (2024)
+• Site web (CRUD complet) et application desktop JavaFX
+Technologies: Symfony, JavaFX, MySQL
+
+═══════════════════════════════════════════════════════════════════
+
+COMPÉTENCES PERSONNELLES
+• Esprit d'équipe
+• Sens de l'organisation
+• Rigueur et curiosité
+• Méthodologie Agile/Scrum
+
+CENTRES D'INTÉRÊT
+Intelligence Artificielle, Apprentissage Automatique, Jeux Vidéo, Nouvelles Technologies
+`;
+
+            // Create and download file
+            const blob = new Blob([cvContent], { type: 'text/plain;charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'CV_Chaima_Atyaoui.txt';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+            
+            alert('✅ CV téléchargé avec succès!');
+        }
+    </script>
+</body>
+</html>
