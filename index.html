@@ -549,14 +549,15 @@
 
             <div class="project-card">
                 <div class="project-card-content">
-                    <h3>Agence Maghribia</h3>
+                    <h3>Assurance Maghrebia</h3>
                     <p class="project-date">2025</p>
                     <p>
-                        Application de voyage intelligente avec chatbot IA, messagerie temps réel et 
-                        recommandations personnalisées via ML clustering.
+                        Application d'assurance intelligente avec chatbot IA et messagerie temps réel. 
+                        Clustering ML sur les réclamations pour identifier les services les plus réclamés.
                     </p>
                     <div class="project-techs">
                         <span class="tech-badge">Spring Boot</span>
+                        <span class="tech-badge">Angular</span>
                         <span class="tech-badge">WebSocket</span>
                         <span class="tech-badge">Python ML</span>
                     </div>
@@ -565,7 +566,7 @@
 
             <div class="project-card">
                 <div class="project-card-content">
-                    <h3>Recruitment Platform</h3>
+                    <h3>OSCAR Recrutement - Recruitment Platform</h3>
                     <p class="project-date">Juillet - Août 2024</p>
                     <p>
                         Système de recrutement avec gestion complète des candidats, entreprises et offres. 
@@ -576,6 +577,7 @@
                         <span class="tech-badge">Angular</span>
                         <span class="tech-badge">Scrum</span>
                     </div>
+                    <a href="https://oscar-recrutement.com/" target="_blank" style="display: inline-block; margin-top: 15px; color: #915eff; text-decoration: none; font-weight: 600;">🔗 Voir le Site →</a>
                 </div>
             </div>
 
@@ -585,12 +587,14 @@
                     <p class="project-date">2025</p>
                     <p>
                         Application d'aide académique intelligente utilisant Mistral pour révision interactive 
-                        et génération de questions.
+                        et génération automatique de questions d'examen.
                     </p>
                     <div class="project-techs">
+                        <span class="tech-badge">Spring Boot</span>
+                        <span class="tech-badge">Angular</span>
+                        <span class="tech-badge">Flask</span>
                         <span class="tech-badge">Ollama</span>
                         <span class="tech-badge">Mistral</span>
-                        <span class="tech-badge">Python</span>
                     </div>
                 </div>
             </div>
@@ -767,12 +771,19 @@
         });
 
         // Download CV function
-        function downloadCV(e) {
+        async function downloadCV(e) {
             e.preventDefault();
             
-            // Create CV content from your data
-            const cvContent = `
-CHAÏMA ATYAOUI
+            try {
+                // Fetch the CV PDF from your CV file
+                const response = await fetch('CV_chaima_atyaoui.pdf');
+                
+                if (!response.ok) {
+                    // If PDF not found, create a fallback PDF-like content
+                    alert('⚠️ Pour télécharger le CV PDF:\n\n1. Uploadez votre fichier "CV_chaima_atyaoui.pdf" dans votre repository GitHub\n2. Ou ajoutez le lien direct vers votre CV hébergé\n\nPour l\'instant, un CV temporaire sera téléchargé.');
+                    
+                    // Create a simple text version as fallback
+                    const cvContent = `CHAÏMA ATYAOUI
 Full Stack Developer
 Email: chaimaattyaoui56@gmail.com | Tél: +216 29 621 280
 GitHub: github.com/chaimaattyaoui | LinkedIn: linkedin.com/in/chaima-attyaoui
@@ -800,7 +811,7 @@ FORMATION
 COMPÉTENCES TECHNIQUES
 Langages: Java, Python, C, C++, JavaScript, TypeScript, HTML, CSS
 Frameworks: Spring Boot, Angular, Symfony, Node.js, JavaFX, React.js, Flutter
-Bases de données: MySQL, MongoDB, Sqflite
+Bases de données: MySQL, MongoDB
 Architecture & Web: API RESTful, WebSocket, JWT, Microservices
 IA & ML: Machine Learning, Python ML, Ollama, Mistral, Clustering
 DevOps: Git, GitHub, Docker, Kubernetes, Postman, Trello, Cloudinary
@@ -830,7 +841,7 @@ OSCAR Recrutement – Application E-commerce "E-Shop" (Août-Septembre 2025)
 • Intégration Cloudinary, tableau de bord interactif, MySQL
 Technologies: Spring Boot, Angular, MySQL, JWT, Cloudinary
 
-Agence Maghribia – Plateforme de Voyage (2025)
+Assurance Maghrebia (2025)
 • Application complète avec chatbot IA, messagerie temps réel et clustering ML
 Technologies: Spring Boot, Angular, WebSocket, Python ML
 
@@ -839,6 +850,7 @@ OSCAR Recrutement – Plateforme de recrutement (Juillet-Août 2024)
 • Modules: administrateurs, entreprises, candidats
 • Sécurité JWT, architecture propre, versionnement Git, Agile (Scrum)
 Technologies: Spring Boot, Angular, JWT, Scrum
+GitHub: https://github.com/chaimaattyaoui/OSCAR_RECRUTMENT
 
 Application Assistant Étudiant (IA – Ollama/Mistral) (2025)
 • Application intelligente d'aide académique basée sur IA locale
@@ -865,19 +877,35 @@ COMPÉTENCES PERSONNELLES
 CENTRES D'INTÉRÊT
 Intelligence Artificielle, Apprentissage Automatique, Jeux Vidéo, Nouvelles Technologies
 `;
-
-            // Create and download file
-            const blob = new Blob([cvContent], { type: 'text/plain;charset=utf-8' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'CV_Chaima_Atyaoui.txt';
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-            document.body.removeChild(a);
-            
-            alert('✅ CV téléchargé avec succès!');
+                    
+                    const blob = new Blob([cvContent], { type: 'text/plain;charset=utf-8' });
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'CV_Chaima_Atyaoui.txt';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                    return;
+                }
+                
+                // If PDF exists, download it
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'CV_Chaima_Atyaoui.pdf';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+                
+                alert('✅ CV téléchargé avec succès!');
+            } catch (error) {
+                console.error('Error downloading CV:', error);
+                alert('❌ Erreur lors du téléchargement. Veuillez uploader votre CV PDF dans le repository.');
+            }
         }
     </script>
 </body>
